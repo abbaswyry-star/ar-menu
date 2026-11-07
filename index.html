@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Menu</title>
+  <title>AR Menu Table View</title>
+  <!-- مكتبة model-viewer الرسمية -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,13 +25,14 @@
       border-radius: 50px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
       cursor: pointer;
-      z-index: 999;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
 
   <model-viewer 
+    id="ar-viewer"
     src="3DModel.glb" 
     ios-src="3DModel.usdz" 
     alt="3D AR Menu" 
@@ -41,10 +43,22 @@
     camera-controls 
     auto-rotate>
     
-    <button slot="ar-button" class="ar-button">
+    <button slot="ar-button" class="ar-button" id="start-ar">
       📷 افتح الكاميرا وضعه على الطاولة
     </button>
   </model-viewer>
+
+  <script>
+    // كود تشغيل الكاميرا فوراً للأندرويد والآيفون عند اللمس
+    const viewer = document.getElementById('ar-viewer');
+    const arButton = document.getElementById('start-ar');
+
+    arButton.addEventListener('click', () => {
+      if (viewer.canActivateAR) {
+        viewer.activateAR();
+      }
+    });
+  </script>
 
 </body>
 </html>
