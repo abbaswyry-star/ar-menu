@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جاري فتح الواقع المعزز...</title>
+  <script>
+    window.onload = function() {
+      // 1. تحديد الروابط المباشرة للمجسم على السيرفر
+      var hostUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+      var glbUrl = hostUrl + '3DModel.glb';
+      var usdzUrl = hostUrl + '3DModel.usdz';
+
+      // 2. فحص نوع جهاز الزبون (iOS أو Android)
+      var isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      if (isiOS) {
+        // توجيه مباشر لكاميرا الآيفون (AR Quick Look)
+        var anchor = document.createElement('a');
+        anchor.setAttribute('rel', 'ar');
+        anchor.setAttribute('href', usdzUrl);
+        anchor.appendChild(document.createElement('img'));
+        document.body.appendChild(anchor);
+        anchor.click();
+      } else {
+        // توجيه مباشر لكاميرا الأندرويد (Google Scene Viewer)
+        var intentUrl = 'intent://arvr.google.com/scene-viewer/1.0?file=' + encodeURIComponent(glbUrl) + 
+                        '&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;';
+        window.location.href = intentUrl;
+      }
+    };
+  </script>
+</head>
+<body style="background:#111; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
+  <p>جاري فتح كاميرا الواقع المعزز...</p>
+</body>
+</html>
